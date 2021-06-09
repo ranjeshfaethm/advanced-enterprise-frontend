@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package faethm.enterprisedomain.common;
+
+
+message Filter {
+    uint32 year = 1;
+    repeated string ages = 2;
+    enum Gender {
+        UNKNOWN = 0;
+        M = 1;
+        F = 2;
+        BOTH = 3;
+    }
+    Gender gender = 3;
+    repeated string locations = 4;
+    repeated string organisations = 5;
+    repeated string levels = 6;
+    repeated string technologies = 7;
+}

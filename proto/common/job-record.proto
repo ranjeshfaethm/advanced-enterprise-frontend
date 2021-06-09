@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package faethm.enterprisedomain.common;
+
+message JobRecord {
+    string foc = 1;
+    float totalFte = 2;
+    float totalFteAtRisk = 3;
+    float totalFteAtRiskPercent = 4; 
+    string title = 5;
+    string jobFamily = 6; 
+    bool internal = 7;
+    bool additional = 8; 
+    float automationRate = 9; 
+}

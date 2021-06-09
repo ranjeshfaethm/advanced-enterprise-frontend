@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package faethm.enterprisedomain.jobcorridor;
+
+import "common/filter.proto";
+
+message JobFit {
+    string foc = 1;
+    string title = 2;
+    float distance = 3;
+    bool internal = 4;
+}
+
+message JobTransitionsRequest {
+    string datasetId = 1;
+    string focFrom = 2;
+    faethm.enterprisedomain.common.Filter filters = 3;
+    int32 batchSize = 4;
+}
+
+message JobTransitionsResponse {
+    repeated JobFit jobFitBatches = 1;
+}
+
+service JobTransitions {
+    rpc GetJobTransitionCareerPathways(JobTransitionsRequest) returns (stream JobTransitionsResponse);
+    rpc GetJobTransitionFutureJobs(JobTransitionsRequest) returns (stream JobTransitionsResponse);
+}

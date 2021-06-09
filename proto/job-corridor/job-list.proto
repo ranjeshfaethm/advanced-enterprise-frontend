@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package faethm.enterprisedomain.jobcorridor;
+
+import "common/filter.proto";
+import "common/job-record.proto";
+
+message JobListRequest {
+    string datasetId = 1;
+    faethm.enterprisedomain.common.Filter filters = 2;
+}
+
+message JobListResponse {
+   repeated faethm.enterprisedomain.common.JobRecord jobs = 1;
+}
+
+message JobListStreamRequest {
+    repeated JobListRequest JobListRequests = 1;
+}
+
+message JobListBatchRequest {
+    string datasetId = 1;
+    faethm.enterprisedomain.common.Filter filters = 2;
+    int32 batchSize = 3;
+}
+
+service JobList {
+    rpc GetJobList(JobListRequest) returns (JobListResponse);
+    rpc GetJobListStream(JobListStreamRequest) returns (stream JobListResponse);
+    rpc GetJobListBatchStream(JobListBatchRequest) returns (stream JobListResponse);
+}
+

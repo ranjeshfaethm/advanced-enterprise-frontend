@@ -1,23 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 
-function App() {
+import { getJobListStreamCallObj } from './api/grpc/JobCorridorClient';
+
+import BasicTable from './BasicTable';
+
+const App = () => {
+  const [jobs, setJobs] = useState([]);
+  useEffect(() => {
+      let jobData = [];
+      const call = getJobListStreamCallObj();
+      call.on('data',(resp)=>{
+        console.log(resp.toObject().jobsList);
+        jobData = jobData.concat(resp.toObject().jobsList);
+        setJobs(jobData);
+      });
+      call.on('end',()=>{
+        console.log('--end--');
+        const jobDataSorted = _.orderBy(jobData, ['totalfteatriskpercent'], ['desc']);
+        setJobs(jobDataSorted);
+      });
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BasicTable jobs={jobs}/>
     </div>
   );
 }
